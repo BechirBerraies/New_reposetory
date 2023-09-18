@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-
+import { useNavigate } from 'react-router-dom'
 
 
 
 const AllPirates = () => {
     const [pirates,setPirates]=useState([])
+    const navigate = useNavigate()
 
     useEffect(()=>{
         axios.get("http://localhost:8000/api/pirate")
@@ -29,8 +30,16 @@ const AllPirates = () => {
                 })
                 .catch(err => console.log(err));
         }
-    
 
+        const logout = () => {
+            console.log("logout");
+            axios.post('http://localhost:8000/api/logout',{},{withCredentials:true})
+            .then(serverResponse=>{
+                console.log(serverResponse);
+                navigate('/login')
+            })
+            .catch(error=>console.log(error))
+        }
 
 return (
 
@@ -38,6 +47,7 @@ return (
     <div style={{backgroundColor:"brown" ,padding:"10px"}} className='d-flex'>
         <h1>Pirate Crew </h1>
         <Link to={'/pirate/new'}><button style={{marginLeft:"200px"}}>Add a pirate</button></Link>
+        <Link className='btn btn-danger ' onClick={logout}>Logout</Link>
     </div>
     {pirates.map(pirate=>
         <div key={pirate._id}>

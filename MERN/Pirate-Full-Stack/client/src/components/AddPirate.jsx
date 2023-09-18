@@ -7,15 +7,28 @@ import axios from 'axios'
 const AddPirate = (props) => {
     const navigate = useNavigate()
     const [pirate,setPirate]=useState("")
+    const[errors,setErrors]=useState({name:'',catchPhrase:"" ,numberOfTreasure:""})
     const formHandler = (e)=>{
         e.preventDefault()
         console.log("SUBMITTED Pirate ",pirate)
         axios.post("http://localhost:8000/api/pirate",pirate)
         .then(serverResponse => {
             console.log(serverResponse);
-            setPirate({name:"",catchPhrase:"" ,crewPosition:"",numberOfTreasure:"",hook:false,eyePatch:false,pegLeg:false});
+            setPirate({name:"",catchPhrase:"",image:"" ,numberOfTreasure:"",hook:false,eyePatch:false,pegLeg:false});
             navigate('/')
         })
+
+        .catch(error=> {
+            const errs = {name:'',catchPhrase:"" ,image:"",crewPosition:"",numberOfTreasure:""}
+            for(let key of Object.keys(error.response.data)){
+                errs[key]=error.response.data[key].message
+            }
+            console.log(error)
+            setErrors({...errors,...errs})
+    
+        })
+    
+    
     }
   return (
 
@@ -30,6 +43,7 @@ const AddPirate = (props) => {
             onChange={(e)=> setPirate({...pirate,name:e.target.value})}
             value={pirate.name}
             /></p>
+        {errors.name && <span className='text-danger h5'>{errors.name}</span>}
 
 
     Crew Position
@@ -42,17 +56,20 @@ const AddPirate = (props) => {
         <option value="Boatswain">Boatswain</option>
         <option value="Cabin Boy">Cabin Boy</option>
     </select>
+    
 
 
         <p>Image<input type="text" 
             onChange={(e)=> setPirate({...pirate,image:e.target.value})}
             value={pirate.image}
             /></p>
+        {errors.image && <span className='text-danger h5'>{errors.image}</span>}
 
         <p>Number of Treasures<input type="number" 
             onChange={(e)=> setPirate({...pirate,numberOfTreasure:e.target.value})}
             value={pirate.numberOfTreasure}
             /></p>
+        {errors.numberOfTreasure && <span className='text-danger h5'>{errors.numberOfTreasure}</span>}
         <p>Catch Phrase<input type="textarea" 
             onChange={(e)=> setPirate({...pirate,catchPhrase:e.target.value})}
             value={pirate.catchPhrase}

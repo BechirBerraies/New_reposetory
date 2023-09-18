@@ -1,4 +1,5 @@
-const Pirate = require('../models/pirate.model');
+const {Pirate} = require('../models/pirate.model');
+
 
 
 module.exports={
@@ -29,6 +30,11 @@ module.exports={
         .then(response=>res.status(200).json(response))
         .catch(error=>res.status(400).json(error))
     }
-
 }
+
+
+
+
+
+
 

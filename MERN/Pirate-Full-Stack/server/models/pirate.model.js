@@ -37,9 +37,13 @@ eyePatch:{
 pegLeg:{
     type:Boolean,
     default:false
+},
+user:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
 }
 
 }, { timestamps: true });
 
 const Pirate = mongoose.model("Pirate",PirateSchema);
-module.exports= Pirate
+module.exports= {Pirate, PirateSchema}

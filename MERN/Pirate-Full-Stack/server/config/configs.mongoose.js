@@ -6,3 +6,7 @@ module.exports = (databaseName) => {
     useUnifiedTopology: true
 }).then(() => console.log('👌👌👌👌ESTABLISHED CONNECTION GITIGNORE👌👌👌👌'))
 .catch(err => console.log('Something went wrong when connecting to the database ', err))};
+
+
+
+
